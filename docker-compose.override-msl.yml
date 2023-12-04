@@ -21,11 +21,11 @@ services:
   zammad-backup:
     volumes:
       - ./msl/data/zammad-backup:/var/tmp/zammad
-      - ./msl/data/zammad-data:/opt/zammad
+      # - ./msl/data/zammad-data:/opt/zammad
 
   zammad-elasticsearch:
-    volumes:
-      - ./msl/data/elasticsearch-data:/usr/share/elasticsearch/data
+    # volumes:
+    #   - ./msl/data/elasticsearch-data:/usr/share/elasticsearch/data
     environment:
       #- "ES_JAVA_OPTS=-Xms512m -Xmx512m"
       - "ES_JAVA_OPTS=-Xmx512m"
@@ -36,28 +36,28 @@ services:
         reservations:
           memory: 512MiB
 
-  zammad-init:
-    volumes:
-      - ./msl/data/zammad-data:/opt/zammad
+  # zammad-init:
+  #   volumes:
+  #     - ./msl/data/zammad-data:/opt/zammad
 
   zammad-nginx:
     ports:
       - "8088:8080"
-    volumes:
-      - ./msl/data/zammad-data:/opt/zammad
+    # volumes:
+    #   - ./msl/data/zammad-data:/opt/zammad
 
-  zammad-postgresql:
-    volumes:
-      - ./msl/data/postgresql-data:/var/lib/postgresql/data
-
-  zammad-railsserver:
-    volumes:
-      - ./msl/data/zammad-data:/opt/zammad
-
-  zammad-scheduler:
-    volumes:
-      - ./msl/data/zammad-data:/opt/zammad
-
-  zammad-websocket:
-    volumes:
-      - ./msl/data/zammad-data:/opt/zammad
+  # zammad-postgresql:
+  #   volumes:
+  #     - ./msl/data/postgresql-data:/var/lib/postgresql/data
+  #
+  # zammad-railsserver:
+  #   volumes:
+  #     - ./msl/data/zammad-data:/opt/zammad
+  #
+  # zammad-scheduler:
+  #   volumes:
+  #     - ./msl/data/zammad-data:/opt/zammad
+  #
+  # zammad-websocket:
+  #   volumes:
+  #     - ./msl/data/zammad-data:/opt/zammad
