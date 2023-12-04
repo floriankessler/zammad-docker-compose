@@ -2,33 +2,18 @@ version: '3'
 
 services:
 
-  #reverse-proxy:
-    #depends_on:
-      #- zammad-nginx
-    #image: nginx
-    #ports:
-      #- "80:80"
-      #- "443:443"
-    #volumes:
-      #- ./msl/testssl:/etc/nginx/ssl
-      #- ./msl/default.conf:/etc/nginx/conf.d/default.conf
-
-  #zammad-nginx:
-    #environment:
-       ##- RAILS_TRUSTED_PROXIES=['127.0.0.1', '::1', 'traefik']
-       #- NGINX_SERVER_SCHEME=https
-
   zammad-backup:
     volumes:
       - ./msl/data/zammad-backup:/var/tmp/zammad
-      # - ./msl/data/zammad-data:/opt/zammad
+      - postgresql-data:/var/lib/postgresql/data:ro
+
+  zammad-postgresql:
+    volumes:
+      - ./msl/data/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d:ro
 
   zammad-elasticsearch:
-    # volumes:
-    #   - ./msl/data/elasticsearch-data:/usr/share/elasticsearch/data
     environment:
-      #- "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-      - "ES_JAVA_OPTS=-Xmx512m"
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     deploy:
       resources:
         limits:
@@ -36,28 +21,6 @@ services:
         reservations:
           memory: 512MiB
 
-  # zammad-init:
-  #   volumes:
-  #     - ./msl/data/zammad-data:/opt/zammad
-
   zammad-nginx:
     ports:
       - "8088:8080"
-    # volumes:
-    #   - ./msl/data/zammad-data:/opt/zammad
-
-  # zammad-postgresql:
-  #   volumes:
-  #     - ./msl/data/postgresql-data:/var/lib/postgresql/data
-  #
-  # zammad-railsserver:
-  #   volumes:
-  #     - ./msl/data/zammad-data:/opt/zammad
-  #
-  # zammad-scheduler:
-  #   volumes:
-  #     - ./msl/data/zammad-data:/opt/zammad
-  #
-  # zammad-websocket:
-  #   volumes:
-  #     - ./msl/data/zammad-data:/opt/zammad

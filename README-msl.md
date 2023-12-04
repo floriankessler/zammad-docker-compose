@@ -21,9 +21,8 @@ docker compose exec -it zammad-railsserver rails c
 
 ```bash
 git checkout master
-git pull upstream
-#git fetch upstream
-#git merge upstream/master
+git pull upstream master
+# Restart stack
 ```
 
 ## Set up Zammad
