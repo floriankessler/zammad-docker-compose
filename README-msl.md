@@ -5,10 +5,31 @@ git clone git@github.com:floriankessler/zammad-docker-compose.git
 #git remote add upstream git@github.com:zammad/zammad-docker-compose.git
 
 git checkout master
-docker compose -f docker-compose.yml -f docker-compose.override-msl.yml up -d
+docker compose -f docker-compose.yml -f docker-compose.override-msl.yml up -d && \
 docker compose -f docker-compose.yml -f docker-compose.override-msl.yml logs -f
 #docker compose -f docker-compose.yml -f docker-compose.override-msl.yml down
 ```
+
+## Renew cert
+
+```bash
+docker compose -f docker-compose.yml -f docker-compose.override-msl.yml down traefik
+
+docker compose -f docker-compose.yml -f docker-compose.override-msl.yml run --rm -ti traefik /bin/sh
+
+traefik \
+  --providers.docker \
+  --providers.docker.exposedbydefault=false \
+  --log.level=DEBUG \
+  --entrypoints.websecure.address=:443 \
+  --entrypoints.web.address=:80 \
+  --certificatesresolvers.letsencrypt.acme.email=florian@msl.solutions \
+  --certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json \
+  --certificatesresolvers.letsencrypt.acme.dnschallenge=true \
+  --certificatesresolvers.letsencrypt.acme.dnsChallenge.provider=manual \
+;
+```
+
 
 ## Enter Zammad console
 
